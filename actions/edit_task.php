@@ -1,6 +1,7 @@
 <?php
 session_start();
 include '../inc/db.php';
+include '../inc/header.php';
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: ../index.php");
@@ -43,17 +44,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id'])) {
 }
 ?>
 
-<h2>Editar Tarefa</h2>
-<form method="post">
-    <input type="hidden" name="id" value="<?= $tarefa['id'] ?>">
-    <input type="text" name="tarefa" value="<?= htmlspecialchars($tarefa['tarefa']) ?>" required><br><br>
+<h2 class="mb-4 text-center">Editar Tarefa</h2>
 
-    <select name="status">
-        <option value="pendente" <?= $tarefa['status'] == 'pendente' ? 'selected' : '' ?>>Pendente</option>
-        <option value="concluída" <?= $tarefa['status'] == 'concluída' ? 'selected' : '' ?>>Concluída</option>
-    </select><br><br>
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <form method="post" class="card card-body shadow-sm">
+      <input type="hidden" name="id" value="<?= $tarefa['id'] ?>">
 
-    <button type="submit">Salvar</button>
-</form>
+      <div class="mb-3">
+        <label class="form-label">Tarefa</label>
+        <input type="text" name="tarefa" class="form-control" value="<?= htmlspecialchars($tarefa['tarefa']) ?>" required>
+      </div>
 
-<a href="../dashboard.php">Cancelar</a>
+      <div class="mb-3">
+        <label class="form-label">Status</label>
+        <select name="status" class="form-select">
+          <option value="pendente" <?= $tarefa['status'] === 'pendente' ? 'selected' : '' ?>>Pendente</option>
+          <option value="concluída" <?= $tarefa['status'] === 'concluída' ? 'selected' : '' ?>>Concluída</option>
+        </select>
+      </div>
+
+      <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-success">Salvar</button>
+        <a href="../dashboard.php" class="btn btn-secondary">Cancelar</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<?php include '../inc/footer.php'; ?>
+
